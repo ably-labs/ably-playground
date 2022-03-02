@@ -9,21 +9,50 @@ export function Canvas() {
     finishDrawing,
     draw,
     imageData,
+    clearCanvas,
+    color,
+    colors,
+    setColor,
   } = useCanvas()
 
-  console.log(imageData)
+  useEffect(() => {
+    console.log(imageData)
+  }, [imageData])
 
   useEffect(() => {
     prepareCanvas()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <canvas
-      onMouseDown={startDrawing}
-      onMouseUp={finishDrawing}
-      onMouseMove={draw}
-      ref={canvasRef}
-      className="border border-slate-600"
-    />
+    <div className="flex flex-col justify-center items-center">
+      <div className="border-8 border-slate-900 my-10 rounded">
+        <canvas
+          onMouseDown={startDrawing}
+          onMouseUp={finishDrawing}
+          onMouseMove={draw}
+          ref={canvasRef}
+        />
+      </div>
+      <div className="flex space-x-4 my-2">
+        {Object.values(colors).map((val) => (
+          <div key={val} className={`rounded-full border-2 border-slate-900`}>
+            <button
+              onClick={() => setColor(val)}
+              style={{ background: val }}
+              className={`p-8 border-4 rounded-full ${
+                color === val ? 'border-slate-800' : ''
+              }`}
+            />
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={clearCanvas}
+        className="border-4 border-slate-900 rounded-full py-2 px-6"
+      >
+        Clear
+      </button>
+    </div>
   )
 }

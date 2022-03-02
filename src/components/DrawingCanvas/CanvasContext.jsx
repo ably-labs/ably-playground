@@ -2,11 +2,25 @@ import React, { useContext, useRef, useState } from 'react'
 
 const CanvasContext = React.createContext({})
 
+const colors = [
+  '#64748b',
+  '#ef4444',
+  '#f59e0b',
+  '#84cc16',
+  '#10b981',
+  '#06b6d4',
+  '#3b82f6',
+  '#8b5cf6',
+  '#ec4899',
+]
+
 export const CanvasProvider = ({ children }) => {
-  const CANVAS_WIDTH = 8000
-  const CANVAS_HEIGHT = 6000
+  const MULTIPLIER = 2
+  const CANVAS_WIDTH = 800 * MULTIPLIER
+  const CANVAS_HEIGHT = 600 * MULTIPLIER
   const [isDrawing, setIsDrawing] = useState(false)
   const [imageData, setImageData] = useState(null)
+  const [color, setColor] = useState(colors[0])
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
 
@@ -15,17 +29,17 @@ export const CanvasProvider = ({ children }) => {
       const canvas = canvasRef.current
       canvas.width = CANVAS_WIDTH
       canvas.height = CANVAS_HEIGHT
-      canvas.style.width = `${CANVAS_WIDTH / 10}px`
-      canvas.style.height = `${CANVAS_HEIGHT / 10}px`
+      canvas.style.width = `${CANVAS_WIDTH / MULTIPLIER}px`
+      canvas.style.height = `${CANVAS_HEIGHT / MULTIPLIER}px`
 
       const context = canvas.getContext('2d')
 
       if (!context) return
 
-      context.scale(10, 10)
+      context.scale(MULTIPLIER, MULTIPLIER)
       context.imageSmoothingQuality = 'high'
       context.lineCap = 'round'
-      context.strokeStyle = 'red'
+      context.strokeStyle = color
       context.lineWidth = 5
       contextRef.current = context
     }
@@ -34,6 +48,7 @@ export const CanvasProvider = ({ children }) => {
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent
     if (!contextRef.current) return
+    contextRef.current.strokeStyle = color
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
     setIsDrawing(true)
@@ -55,6 +70,7 @@ export const CanvasProvider = ({ children }) => {
   const draw = ({ nativeEvent }) => {
     if (!isDrawing || !contextRef.current) return
     const { offsetX, offsetY } = nativeEvent
+    console.log(contextRef.current)
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
   }
@@ -70,9 +86,12 @@ export const CanvasProvider = ({ children }) => {
   return (
     <CanvasContext.Provider
       value={{
+        color,
+        colors,
         imageData,
         canvasRef,
         contextRef,
+        setColor,
         prepareCanvas,
         startDrawing,
         finishDrawing,
