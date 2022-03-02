@@ -1,9 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
 
 function App() {
   return (
-    <div className="App">
+    <div className="bg-slate-600">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -19,7 +18,7 @@ function App() {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
