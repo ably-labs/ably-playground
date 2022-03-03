@@ -1,4 +1,27 @@
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import Button from '@material-ui/core/Button';
 import React, { useState } from 'react'
+
+const ThumbUpButton = {
+  backgroundColor: 'rgb(115, 250, 179)',
+  border: 'none',
+  borderRadius: '5px',
+}
+
+const ThumbDownButton = {
+  backgroundColor: 'rgb(15, 250, 179)',
+  border: 'none',
+  borderRadius: '5px',
+}
+
+const ThumbStyle = {
+  backgroundColor: 'red',
+  border: 'none',
+  padding: '5px',
+  borderRadius: '5px',
+  margin: '1rem'
+}
 
 export class Vote extends React.Component {
   constructor() {
@@ -19,10 +42,10 @@ export class Vote extends React.Component {
     return (
       <div>
       <div>
-        <span className="upVote">{this.state.upVote}</span>
-        <button className="voteUp" onClick={this.up}>UP</button>
-        <button className="voteDown" onClick={this.down}>DOWN</button>
-        <span className="downVote">{this.state.downVote}</span>
+        <i className="upVote">{this.state.upVote}</i>
+        <button className="voteUp" style={{border: 'none', backgroundColor: 'transparent'}} onClick={this.up}><ThumbUpIcon style={ThumbUpButton} /></button>
+        <button className="voteDown" style={{border: 'none', backgroundColor: 'transparent'}} onClick={this.down}><ThumbDownIcon style={ThumbDownButton} /></button>
+        <i className="downVote">{this.state.downVote}</i>
       </div>
       <div>
         <button className="reset" onClick={this.reset}>Reset Votes</button>
@@ -52,7 +75,6 @@ export class Vote extends React.Component {
   }
 
   reset() {
-      console.log('reset vote');
     this.setState({
       voted: false,
       upVote: 0,
