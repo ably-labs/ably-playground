@@ -5,15 +5,12 @@ import { configureAbly } from '@ably-labs/react-hooks'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { CanvasProvider } from './components'
 
 configureAbly({ authUrl: '/api/createTokenRequest' })
 
 ReactDOM.render(
   <React.StrictMode>
-    <CanvasProvider>
-      <App />
-    </CanvasProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 )

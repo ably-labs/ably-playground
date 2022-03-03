@@ -18,13 +18,13 @@ function App() {
         </button>
       </header>
       <div className="grid grid-cols-3 gap-4">
-        <div className="row-span-2 col-span-2">
+        <div className="rounded-lg shadow row-span-2 col-span-2 overflow-hidden">
           <Canvas />
         </div>
-        <div className="rounded-lg shadow-lg bg-white text-center ">
+        <div className="rounded-lg shadow bg-white text-center ">
           Presence Component
         </div>
-        <div className="rounded-lg shadow-lg bg-white text-center">
+        <div className="rounded-lg shadow bg-white text-center">
           <Timer />
         </div>
         <div className="col-start-3 h-80 rounded-lg shadow-lg bg-white text-center">

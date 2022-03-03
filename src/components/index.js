@@ -1,3 +1,3 @@
-export { Canvas, CanvasProvider } from './DrawingCanvas'
+export { Canvas } from './DrawingCanvas'
 export { Timer } from './Timer'
 export { Vote } from './Vote'
