@@ -28,7 +28,6 @@ export const CanvasProvider = ({ children }) => {
   const contextRef = useRef(null)
 
   const setCanvasDimensions = ({ width, height }) => {
-    console.log({ width, height })
     setCanvasWidth(width * 2)
     setCanvasHeight(height * 2)
 
@@ -38,7 +37,6 @@ export const CanvasProvider = ({ children }) => {
   const prepareCanvas = ({ width = 800, height = 600 }) => {
     if (canvasRef.current) {
       const canvas = canvasRef.current
-      console.log('Setting canvas values', { width, height })
       canvas.width = width * 2
       canvas.height = height * 2
       canvas.style.width = `${width}px`

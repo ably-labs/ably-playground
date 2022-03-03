@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCanvas } from './CanvasContext'
+import { useChannel } from '@ably-labs/react-hooks'
 
 export function Canvas() {
   const {
@@ -18,18 +19,18 @@ export function Canvas() {
   const [clearConfirm, setClearConfirm] = useState(false)
   const containerRef = useRef(null)
 
+  const [channel] = useChannel('canvas', (message) => {
+    console.log(message)
+  })
+
   useEffect(() => {
     if (imageData) {
       console.log(imageData)
+      channel.publish('canvas', { imageData })
     }
   }, [imageData])
 
   useEffect(() => {
-    // prepareCanvas()
-    console.log({
-      width: containerRef.current.clientWidth,
-      height: containerRef.current.clientHeight,
-    })
     prepareCanvas({})
     setCanvasDimensions({
       width: containerRef.current.clientWidth,
