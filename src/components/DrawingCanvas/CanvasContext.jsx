@@ -16,12 +16,10 @@ const colors = {
 }
 
 export const CanvasProvider = ({ children }) => {
-  const MULTIPLIER = 2
-  const CANVAS_WIDTH = 800 * MULTIPLIER
-  const CANVAS_HEIGHT = 600 * MULTIPLIER
-
   const [isDrawing, setIsDrawing] = useState(false)
   const [imageData, setImageData] = useState(null)
+  const [canvasWidth, setCanvasWidth] = useState(800)
+  const [canvasHeight, setCanvasHeight] = useState(600)
   const [color, setColor] = useState(colors.gray)
   const [points, setPoints] = useState([])
   const [startingPoint, setStartingPoint] = useState({})
@@ -29,19 +27,28 @@ export const CanvasProvider = ({ children }) => {
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
 
-  const prepareCanvas = () => {
+  const setCanvasDimensions = ({ width, height }) => {
+    console.log({ width, height })
+    setCanvasWidth(width * 2)
+    setCanvasHeight(height * 2)
+
+    prepareCanvas({ width, height })
+  }
+
+  const prepareCanvas = ({ width = 800, height = 600 }) => {
     if (canvasRef.current) {
       const canvas = canvasRef.current
-      canvas.width = CANVAS_WIDTH
-      canvas.height = CANVAS_HEIGHT
-      canvas.style.width = `${CANVAS_WIDTH / MULTIPLIER}px`
-      canvas.style.height = `${CANVAS_HEIGHT / MULTIPLIER}px`
+      console.log('Setting canvas values', { width, height })
+      canvas.width = width * 2
+      canvas.height = height * 2
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
 
       const context = canvas.getContext('2d')
 
       if (!context) return
 
-      context.scale(MULTIPLIER, MULTIPLIER)
+      context.scale(2, 2)
       context.lineJoin = 'round'
       context.lineCap = 'round'
       context.strokeStyle = color
@@ -103,8 +110,8 @@ export const CanvasProvider = ({ children }) => {
     const imgData = contextRef.current.getImageData(
       0,
       0,
-      CANVAS_WIDTH,
-      CANVAS_HEIGHT
+      canvasWidth,
+      canvasHeight
     )
     setImageData(imgData)
   }
@@ -116,8 +123,8 @@ export const CanvasProvider = ({ children }) => {
     const imgData = contextRef.current.getImageData(
       0,
       0,
-      CANVAS_WIDTH,
-      CANVAS_HEIGHT
+      canvasWidth,
+      canvasHeight
     )
     setImageData(imgData)
     context.fillStyle = 'white'
@@ -132,6 +139,7 @@ export const CanvasProvider = ({ children }) => {
         imageData,
         canvasRef,
         contextRef,
+        setCanvasDimensions,
         setColor,
         prepareCanvas,
         startDrawing,
