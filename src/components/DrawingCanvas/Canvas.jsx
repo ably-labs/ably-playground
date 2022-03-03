@@ -35,14 +35,12 @@ export function Canvas() {
         />
       </div>
       <div className="flex space-x-4 my-2">
-        {Object.values(colors).map((val) => (
+        {Object.entries(colors).map(([key, val]) => (
           <div key={val} className={`rounded-full border-2 border-slate-900`}>
             <button
               onClick={() => setColor(val)}
-              style={{ background: val }}
-              className={`p-8 border-4 rounded-full ${
-                color === val ? 'border-slate-800' : ''
-              }`}
+              style={{ background: val, borderColor: val === color ? val : '' }}
+              className={`p-8 border-4 rounded-full`}
             />
           </div>
         ))}
