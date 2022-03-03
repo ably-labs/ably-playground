@@ -28,7 +28,7 @@ export function Canvas() {
       console.log(imageData)
       channel.publish('canvas', { imageData })
     }
-  }, [imageData])
+  }, [imageData, channel])
 
   useEffect(() => {
     prepareCanvas({})

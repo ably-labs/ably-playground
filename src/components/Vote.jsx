@@ -11,7 +11,7 @@ export function Vote() {
 
   const channelSubscription = 'vote'
 
-  const [channel, ably] = useChannel(channelSubscription, (message) => {
+  const [channel] = useChannel(channelSubscription, (message) => {
     const data = message.data
     if (data.upVotes > upVotes) setUpVotes(data.upVotes)
     if (data.downVotes > downVotes) setUpVotes(data.downVotes)
