@@ -28,8 +28,8 @@ export const CanvasProvider = ({ children }) => {
   const contextRef = useRef(null)
 
   const setCanvasDimensions = ({ width, height }) => {
-    setCanvasWidth(width * 2)
-    setCanvasHeight(height * 2)
+    setCanvasWidth(width)
+    setCanvasHeight(height)
 
     prepareCanvas({ width, height })
   }
@@ -37,8 +37,8 @@ export const CanvasProvider = ({ children }) => {
   const prepareCanvas = ({ width = 800, height = 600 }) => {
     if (canvasRef.current) {
       const canvas = canvasRef.current
-      canvas.width = width * 2
-      canvas.height = height * 2
+      canvas.width = width
+      canvas.height = height
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
 
@@ -46,7 +46,7 @@ export const CanvasProvider = ({ children }) => {
 
       if (!context) return
 
-      context.scale(2, 2)
+      context.scale(1, 1)
       context.lineJoin = 'round'
       context.lineCap = 'round'
       context.strokeStyle = color
@@ -73,6 +73,8 @@ export const CanvasProvider = ({ children }) => {
 
     const { offsetX: x, offsetY: y } = nativeEvent
     setPoints((currentPoints) => currentPoints.concat({ x, y }))
+
+    console.log(points)
 
     if (points.length > 3) {
       const lastTwoPoints = points.slice(-2)
@@ -101,17 +103,16 @@ export const CanvasProvider = ({ children }) => {
       drawLine(startingPoint, controlPoint, endPoint, contextRef.current)
     }
 
+    var g = JSON.stringify(points).replace(/[\[\]\,\"]/g, '') //stringify and remove all "stringification" extra data
+
+    console.log(g.length)
+    setImageData(points)
+
     setStartingPoint(null)
     setIsDrawing(false)
     setPoints([])
 
-    const imgData = contextRef.current.getImageData(
-      0,
-      0,
-      canvasWidth,
-      canvasHeight
-    )
-    setImageData(imgData)
+    const imgData = canvasRef.current.toDataURL('image/svg')
   }
 
   const clearCanvas = () => {

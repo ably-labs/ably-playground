@@ -26,6 +26,7 @@ export function Canvas() {
   useEffect(() => {
     if (imageData) {
       console.log(imageData)
+
       channel.publish('canvas', { imageData })
     }
   }, [imageData, channel])
@@ -48,7 +49,7 @@ export function Canvas() {
   }
 
   return (
-    <div ref={containerRef} className="shadow-lg rounded-lg relative bg-white">
+    <div ref={containerRef} className="relative bg-white">
       <canvas
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
