@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { useChannel } from "@ably-labs/react-hooks";
 import thumbsUp from '../icons/thumbs-up.svg'
 import thumbsDown from '../icons/thumbs-down.svg'
 
@@ -8,12 +9,31 @@ export function Vote() {
   const [upVotes, setUpVotes] = useState(0)
   const [votesRemaining, setVotesRemaining] = useState(1)
 
+  const channelSubscription = 'vote'
+
+  const [channel, ably] = useChannel(channelSubscription, (message) => {
+    const action = message.action
+    switch(action) {
+      case 'up':
+        onVoteUp()
+        break
+      case 'up':
+        onVoteUp()
+        break
+      default:
+        onVoteReset()
+        break
+    }
+  });
+
   const onVoteDown = () => {
     console.log(votesRemaining)
     if (!votesRemaining) return
 
     setDownVotes((currentDownVotes) => currentDownVotes + 1)
     setVotesRemaining(votesRemaining - 1)
+
+    channel.publish(channelSubscription, { action: 'down' });
   }
 
   const onVoteUp = () => {
@@ -22,6 +42,16 @@ export function Vote() {
 
     setUpVotes((currentUpVotes) => currentUpVotes + 1)
     setVotesRemaining(votesRemaining - 1)
+
+    channel.publish(channelSubscription, { action: 'up' });
+  }
+
+  const onVoteReset = () => {
+    setUpVotes(0)
+    setDownVotes(0)
+    setVotesRemaining(1)
+
+    channel.publish(channelSubscription, { action: 'reset' });
   }
 
   return (
@@ -34,6 +64,9 @@ export function Vote() {
         <img src={thumbsUp} className="h-10" alt="logo" />
       </button>
       <div>{upVotes}</div>
+      <button onClick={onVoteReset}>
+        Reset Votes
+      </button>
     </div>
   )
 }
