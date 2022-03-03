@@ -12,18 +12,9 @@ export function Vote() {
   const channelSubscription = 'vote'
 
   const [channel, ably] = useChannel(channelSubscription, (message) => {
-    const action = message.action
-    switch(action) {
-      case 'up':
-        onVoteUp()
-        break
-      case 'up':
-        onVoteUp()
-        break
-      default:
-        onVoteReset()
-        break
-    }
+    const data = message.data
+    if (data.upVotes > upVotes) setUpVotes(data.upVotes)
+    if (data.downVotes > downVotes) setUpVotes(data.downVotes)
   });
 
   const onVoteDown = () => {
@@ -33,7 +24,7 @@ export function Vote() {
     setDownVotes((currentDownVotes) => currentDownVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
-    channel.publish(channelSubscription, { action: 'down' });
+    channel.publish(channelSubscription, { action: 'down', upVotes: upVotes, downVotes: downVotes + 1 });
   }
 
   const onVoteUp = () => {
@@ -43,7 +34,7 @@ export function Vote() {
     setUpVotes((currentUpVotes) => currentUpVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
-    channel.publish(channelSubscription, { action: 'up' });
+    channel.publish(channelSubscription, { action: 'up', upVotes: upVotes + 1, downVotes: downVotes });
   }
 
   const onVoteReset = () => {
