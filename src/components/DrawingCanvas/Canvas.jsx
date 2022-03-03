@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCanvas } from './CanvasContext'
 
 export function Canvas() {
@@ -14,9 +14,12 @@ export function Canvas() {
     colors,
     setColor,
   } = useCanvas()
+  const [clearConfirm, setClearConfirm] = useState(false)
 
   useEffect(() => {
-    console.log(imageData)
+    if (imageData) {
+      console.log(imageData)
+    }
   }, [imageData])
 
   useEffect(() => {
@@ -24,33 +27,57 @@ export function Canvas() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onClearClick = () => {
+    !clearConfirm
+      ? setClearConfirm(true)
+      : clearCanvas() || setClearConfirm(false)
+  }
+
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="border-8 border-slate-900 my-10 rounded">
+      <div className="shadow-lg my-10 rounded-lg relative">
         <canvas
           onMouseDown={startDrawing}
           onMouseUp={finishDrawing}
           onMouseMove={draw}
           ref={canvasRef}
         />
-      </div>
-      <div className="flex space-x-4 my-2">
-        {Object.entries(colors).map(([key, val]) => (
-          <div key={val} className={`rounded-full border-2 border-slate-900`}>
+        <div className="flex absolute bottom-3 left-3 bg-[#F5F5F6] p-1 rounded-full">
+          {Object.entries(colors).map(([key, val]) => (
+            <div key={val} className="rounded-full">
+              <button
+                onClick={() => setColor(val)}
+                style={{
+                  background: val,
+                  borderColor: val === color ? val : '#F5F5F6',
+                }}
+                className="p-4 border-4 rounded-full"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="bottom-3 right-3 absolute">
+          <div className="flex w-full justify-evenly space-x-2">
+            <div className="text-slate-600">
+              {clearConfirm ? 'Clear the canvas for everyone?' : ' '}
+            </div>
             <button
-              onClick={() => setColor(val)}
-              style={{ background: val, borderColor: val === color ? val : '' }}
-              className={`p-8 border-4 rounded-full`}
-            />
+              onClick={onClearClick}
+              className={`bg-[#F5F5F6] rounded-full py-3 px-6 transition-all leading-none`}
+            >
+              {clearConfirm ? 'Yes' : 'Clear canvas'}
+            </button>
+            {clearConfirm ? (
+              <button
+                onClick={() => setClearConfirm(false)}
+                className="bg-red-50 border-2 border-red-600 text-red-600 rounded-full py-3 px-6 transition-all leading-none"
+              >
+                No
+              </button>
+            ) : null}
           </div>
-        ))}
+        </div>
       </div>
-      <button
-        onClick={clearCanvas}
-        className="border-4 border-slate-900 rounded-full py-2 px-6"
-      >
-        Clear
-      </button>
     </div>
   )
 }
