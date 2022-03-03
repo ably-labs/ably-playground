@@ -28,14 +28,16 @@ export function Canvas() {
   }, [])
 
   const onClearClick = () => {
-    !clearConfirm
-      ? setClearConfirm(true)
-      : clearCanvas() || setClearConfirm(false)
+    if (!clearConfirm) {
+      return setClearConfirm(true)
+    }
+    setClearConfirm(false)
+    clearCanvas()
   }
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="shadow-lg my-10 rounded-lg relative">
+      <div className="shadow-lg my-10 rounded-lg relative bg-white">
         <canvas
           onMouseDown={startDrawing}
           onMouseUp={finishDrawing}
@@ -51,13 +53,13 @@ export function Canvas() {
                   background: val,
                   borderColor: val === color ? val : '#F5F5F6',
                 }}
-                className="p-4 border-4 rounded-full"
+                className="p-3 border-4 rounded-full"
               />
             </div>
           ))}
         </div>
         <div className="bottom-3 right-3 absolute">
-          <div className="flex w-full justify-evenly space-x-2">
+          <div className="flex w-full space-x-2 items-center">
             <div className="text-slate-600">
               {clearConfirm ? 'Clear the canvas for everyone?' : ' '}
             </div>

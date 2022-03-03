@@ -113,6 +113,13 @@ export const CanvasProvider = ({ children }) => {
     const canvas = canvasRef.current
     const context = canvas?.getContext('2d')
     if (!context || !canvas) return
+    const imgData = contextRef.current.getImageData(
+      0,
+      0,
+      CANVAS_WIDTH,
+      CANVAS_HEIGHT
+    )
+    setImageData(imgData)
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
   }
