@@ -1,84 +1,39 @@
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import Button from '@material-ui/core/Button';
 import React, { useState } from 'react'
 
-const ThumbUpButton = {
-  backgroundColor: 'rgb(115, 250, 179)',
-  border: 'none',
-  borderRadius: '5px',
-}
+import thumbsUp from '../icons/thumbs-up.svg'
+import thumbsDown from '../icons/thumbs-down.svg'
 
-const ThumbDownButton = {
-  backgroundColor: 'rgb(15, 250, 179)',
-  border: 'none',
-  borderRadius: '5px',
-}
+export function Vote() {
+  const [downVotes, setDownVotes] = useState(0)
+  const [upVotes, setUpVotes] = useState(0)
+  const [votesRemaining, setVotesRemaining] = useState(1)
 
-const ThumbStyle = {
-  backgroundColor: 'red',
-  border: 'none',
-  padding: '5px',
-  borderRadius: '5px',
-  margin: '1rem'
-}
+  const onVoteDown = () => {
+    console.log(votesRemaining)
+    if (!votesRemaining) return
 
-export class Vote extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      voted: false,
-      upVote: 0,
-      downVote: 0,
-    };
-
-    this.up = this.up.bind(this);
-    this.down = this.down.bind(this);
-    this.reset = this.reset.bind(this);
+    setDownVotes((currentDownVotes) => currentDownVotes + 1)
+    setVotesRemaining(votesRemaining - 1)
   }
 
-  render() {
-    return (
-      <div>
-      <div>
-        <i className="upVote">{this.state.upVote}</i>
-        <button className="voteUp" style={{border: 'none', backgroundColor: 'transparent'}} onClick={this.up}><ThumbUpIcon style={ThumbUpButton} /></button>
-        <button className="voteDown" style={{border: 'none', backgroundColor: 'transparent'}} onClick={this.down}><ThumbDownIcon style={ThumbDownButton} /></button>
-        <i className="downVote">{this.state.downVote}</i>
-      </div>
-      <div>
-        <button className="reset" onClick={this.reset}>Reset Votes</button>
-      </div>
-      </div>
-    );
+  const onVoteUp = () => {
+    console.log(votesRemaining)
+    if (!votesRemaining) return
+
+    setUpVotes((currentUpVotes) => currentUpVotes + 1)
+    setVotesRemaining(votesRemaining - 1)
   }
 
-  up() {
-    if (this.state.voted) {
-      return;
-    }
-    this.setState({
-      upVote: this.state.upVote + 1,
-    });
-    this.state.voted = true;
-  }
-
-  down() {
-    if (this.state.voted || this.state.downVote == 0) {
-      return;
-    }
-    this.setState({
-      downVote: this.state.downVote - 1,
-    });
-    this.state.voted = true;
-  }
-
-  reset() {
-    this.setState({
-      voted: false,
-      upVote: 0,
-      downVote: 0
-    });
-  }
+  return (
+    <div className="flex flex-row justify-center items-center h-full">
+      <div>{downVotes}</div>
+      <button onClick={onVoteDown}>
+        <img src={thumbsDown} className="h-10" alt="logo" />
+      </button>
+      <button onClick={onVoteUp}>
+        <img src={thumbsUp} className="h-10" alt="logo" />
+      </button>
+      <div>{upVotes}</div>
+    </div>
+  )
 }
