@@ -22,7 +22,7 @@ export  class PubSubClient {
 
   sendMessage(message, targetClientId) {
     if (!this.connected) {
-      throw "Client is not connected";
+      throw Error("Client is not connected");
     }
 
     message.metadata = this.metadata;
