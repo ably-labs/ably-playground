@@ -1,6 +1,6 @@
-import logo from './icons/logo.svg'
+import logo from './logo.svg'
 
-import { Canvas, Timer, Vote } from './components'
+import { Canvas } from './components'
 
 function App() {
   return (
@@ -25,10 +25,10 @@ function App() {
           Presence Component
         </div>
         <div className="rounded-lg shadow-lg bg-white text-center">
-          <Timer />
+          Timer Component
         </div>
         <div className="col-start-3 h-80 rounded-lg shadow-lg bg-white text-center">
-          <Vote />
+          Voting Component
         </div>
       </div>
     </div>
