@@ -25,11 +25,6 @@ export function Canvas() {
   }, [imageData])
 
   useEffect(() => {
-    // prepareCanvas()
-    console.log({
-      width: containerRef.current.clientWidth,
-      height: containerRef.current.clientHeight,
-    })
     prepareCanvas({})
     setCanvasDimensions({
       width: containerRef.current.clientWidth,
