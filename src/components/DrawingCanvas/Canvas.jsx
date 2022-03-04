@@ -103,7 +103,7 @@ export function Canvas() {
           className="absolute top-0 left-0"
           style={{
             pointerEvents: 'none',
-            height: 600,
+            height: 900,
             width: '100%',
             stroke: '#0f172a',
             strokeWidth: '5',
@@ -123,7 +123,7 @@ export function Canvas() {
           onPointerUp={handlePointerUp}
           style={{
             touchAction: 'none',
-            height: 600,
+            height: 900,
             width: '100%',
             backgroundColor: '#ffffff',
             stroke: '#0f172a',
