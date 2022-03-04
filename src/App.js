@@ -1,6 +1,7 @@
 import logo from './icons/logo.svg'
 
 import { Canvas, Timer, Vote, AvatarStack } from './components'
+import { Buttons } from './components/Buttons'
 
 function App() {
   return (
@@ -18,16 +19,20 @@ function App() {
         </button>
       </header>
       <div className="grid grid-cols-3 gap-4">
-        <div className="rounded-lg shadow row-span-2 col-span-2 overflow-hidden">
+        <div className="relative rounded-lg shadow row-span-2 col-span-2 overflow-hidden">
+          <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/DrawingCanvas/Canvas.jsx" />
           <Canvas />
         </div>
-        <div className="rounded-lg shadow bg-white text-center ">
+        <div className="relative rounded-lg shadow bg-white text-center ">
+          <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/AvatarStack/AvatarStack.js" />
           <AvatarStack />
         </div>
-        <div className="rounded-lg shadow bg-white text-center">
+        <div className="relative rounded-lg shadow bg-white text-center">
+          <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/Timer/Timer.jsx" />
           <Timer />
         </div>
-        <div className="col-start-3 h-80 rounded-lg shadow-lg bg-white text-center">
+        <div className="relative col-start-3 h-80 rounded-lg shadow-lg bg-white text-center">
+          <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/Vote.jsx" />
           <Vote />
         </div>
       </div>
