@@ -103,7 +103,6 @@ const names = [
 ]
 
 const colors = [
-  '#0f172a',
   '#ef4444',
   '#f59e0b',
   '#84cc16',
@@ -117,7 +116,7 @@ const colors = [
 export function AvatarStack() {
   const [presenceData] = usePresence('playground', {
     name: names[Math.floor(Math.random() * names.length)],
-    color: colors.slice(1)[Math.floor(Math.random() * colors.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
   })
   return (
     <ul className="flex -space-x-2">
