@@ -43,9 +43,13 @@ export function Timer() {
   }, [runningTime, timer])
 
   useEffect(() => {
+    if (!(timer - runningTime)) {
+      channel.publish('timer', { action: 'stop' })
+      return clearInterval(intervalRef.current)
+    }
     const formattedTime = getFormattedTime()
     setFormattedTime(formattedTime)
-  }, [runningTime, getFormattedTime])
+  }, [runningTime, getFormattedTime, timer, channel])
 
   useEffect(() => {
     if (isRunning) {
