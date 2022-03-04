@@ -102,21 +102,38 @@ const names = [
   "Cass"
 ];
 
+const randomColor = (() => {
+    "use strict";
+  
+    const randomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+  
+    return () => {
+        var h = randomInt(120, 220);
+        var s = randomInt(56, 72);
+        var l = randomInt(40, 60);
+        return `hsl(${h},${s}%,${l}%)`;
+    };
+    })();
+
 export function AvatarStack() {
-  const [presenceData] = usePresence("playground", {
+    const [presenceData] = usePresence("playground", {
     name: names[Math.floor(Math.random() * names.length)]
   });
   return (
-      <ul>
+    <ul className="flex -space-x-2">
         {presenceData.slice(0, 3).map((msg, index) => (
-          <li key={index}>
-            Initial: {msg.data.name.charAt(0)},
-            <span>Name: {msg.data.name}</span>
-          </li>
+            <li key={index} className="group bg-slate-200 h-12 w-12 rounded-full flex items-center justify-center ring-2 ring-white relative" style={{backgroundColor: randomColor()}}>
+                {msg.data.name.charAt(0)}
+                <span className="absolute top-[56px] invisible group-hover:visible rounded bg-black text-white px-2 py-1">{msg.data.name}</span>
+            </li>
         ))}
         {presenceData.length > 3 && (
-          <li>+{presenceData.length - 3}</li>
-        )}
-      </ul>
-  );
+            <li className="bg-slate-200 h-12 w-12 rounded-full flex items-center justify-center ring-2 ring-white z-50">
+                +{presenceData.length - 3}
+            </li>
+         )}
+     </ul>
+    );
 };

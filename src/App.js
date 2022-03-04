@@ -21,7 +21,7 @@ function App() {
         <div className="rounded-lg shadow row-span-2 col-span-2 overflow-hidden">
           <Canvas />
         </div>
-        <div className="rounded-lg shadow bg-white text-center ">
+        <div className="rounded-lg shadow bg-white text-center flex items-center justify-center">
           <AvatarStack />
         </div>
         <div className="rounded-lg shadow bg-white text-center">
