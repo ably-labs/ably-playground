@@ -22,6 +22,7 @@ export function Vote() {
         break
 
       case 'reset':
+        setVotesRemaining(1)
         setDownVotes(0)
         setUpVotes(0)
         break
@@ -34,7 +35,6 @@ export function Vote() {
   const onVoteDown = () => {
     if (!votesRemaining) return
 
-    // setDownVotes((currentDownVotes) => currentDownVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
     channel.publish(channelSubscription, {
@@ -47,7 +47,6 @@ export function Vote() {
   const onVoteUp = () => {
     if (!votesRemaining) return
 
-    // setUpVotes((currentUpVotes) => currentUpVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
     channel.publish(channelSubscription, {
@@ -58,8 +57,6 @@ export function Vote() {
   }
 
   const onVoteReset = () => {
-    setVotesRemaining(1)
-
     channel.publish(channelSubscription, { action: 'reset' })
   }
 
