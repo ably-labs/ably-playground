@@ -102,21 +102,36 @@ const names = [
   "Cass"
 ];
 
+const colors = [
+    '#0f172a',
+    '#ef4444',
+    '#f59e0b',
+    '#84cc16',
+    '#10b981',
+    '#06b6d4',
+    '#3b82f6',
+    '#8b5cf6',
+    '#ec4899',
+];
+
 export function AvatarStack() {
-  const [presenceData] = usePresence("playground", {
-    name: names[Math.floor(Math.random() * names.length)]
+    const [presenceData] = usePresence("playground", {
+    name: names[Math.floor(Math.random() * names.length)],
+    color: colors[Math.floor(Math.random() * colors.length)]
   });
   return (
-      <ul>
+    <ul className="flex -space-x-2">
         {presenceData.slice(0, 3).map((msg, index) => (
-          <li key={index}>
-            Initial: {msg.data.name.charAt(0)},
-            <span>Name: {msg.data.name}</span>
-          </li>
+            <li key={index} className="group bg-slate-200 h-12 w-12 rounded-full flex items-center justify-center ring-2 ring-white relative" style={{backgroundColor: msg.data.color}}>
+                {msg.data.name.charAt(0)}
+                <span className="absolute top-[56px] invisible group-hover:visible rounded bg-black text-white px-2 py-1">{msg.data.name}</span>
+            </li>
         ))}
         {presenceData.length > 3 && (
-          <li>+{presenceData.length - 3}</li>
-        )}
-      </ul>
-  );
+            <li className="bg-slate-200 h-12 w-12 rounded-full flex items-center justify-center ring-2 ring-white z-50">
+                +{presenceData.length - 3}
+            </li>
+         )}
+     </ul>
+    );
 };

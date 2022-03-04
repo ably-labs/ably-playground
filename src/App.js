@@ -23,7 +23,7 @@ function App() {
           <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/DrawingCanvas/Canvas.jsx" />
           <Canvas />
         </div>
-        <div className="relative rounded-lg shadow bg-white text-center ">
+        <div className="relative rounded-lg shadow bg-white text-center flex items-center justify-center">
           <Buttons githubLink="https://github.com/ably-labs/ably-playground/blob/main/src/components/AvatarStack/AvatarStack.js" />
           <AvatarStack />
         </div>
