@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useChannel } from "@ably-labs/react-hooks";
+import { useChannel } from '@ably-labs/react-hooks'
 import thumbsUp from '../icons/thumbs-up.svg'
 import thumbsDown from '../icons/thumbs-down.svg'
 
@@ -12,50 +12,80 @@ export function Vote() {
   const channelSubscription = 'vote'
 
   const [channel] = useChannel(channelSubscription, (message) => {
-    const data = message.data
-    if (data.upVotes > upVotes) setUpVotes(data.upVotes)
-    if (data.downVotes > downVotes) setUpVotes(data.downVotes)
-  });
+    switch (message.data.action) {
+      case 'down':
+        setDownVotes((v) => v + 1)
+        break
+
+      case 'up':
+        setUpVotes((v) => v + 1)
+        break
+
+      case 'reset':
+        setVotesRemaining(1)
+        setDownVotes(0)
+        setUpVotes(0)
+        break
+
+      default:
+        return null
+    }
+  })
 
   const onVoteDown = () => {
-    console.log(votesRemaining)
     if (!votesRemaining) return
 
-    setDownVotes((currentDownVotes) => currentDownVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
-    channel.publish(channelSubscription, { action: 'down', upVotes: upVotes, downVotes: downVotes + 1 });
+    channel.publish(channelSubscription, {
+      action: 'down',
+      upVotes: upVotes,
+      downVotes: downVotes + 1,
+    })
   }
 
   const onVoteUp = () => {
-    console.log(votesRemaining)
     if (!votesRemaining) return
 
-    setUpVotes((currentUpVotes) => currentUpVotes + 1)
     setVotesRemaining(votesRemaining - 1)
 
-    channel.publish(channelSubscription, { action: 'up', upVotes: upVotes + 1, downVotes: downVotes });
+    channel.publish(channelSubscription, {
+      action: 'up',
+      upVotes: upVotes + 1,
+      downVotes: downVotes,
+    })
   }
 
   const onVoteReset = () => {
-    setUpVotes(0)
-    setDownVotes(0)
-    setVotesRemaining(1)
-
-    channel.publish(channelSubscription, { action: 'reset' });
+    channel.publish(channelSubscription, { action: 'reset' })
   }
 
   return (
-    <div className="flex flex-row justify-center items-center h-full">
-      <div>{downVotes}</div>
-      <button onClick={onVoteDown}>
-        <img src={thumbsDown} className="h-10" alt="logo" />
-      </button>
-      <button onClick={onVoteUp}>
-        <img src={thumbsUp} className="h-10" alt="logo" />
-      </button>
-      <div>{upVotes}</div>
-      <button onClick={onVoteReset}>
+    <div className="flex flex-col justify-center items-center h-full">
+      <div className="flex space-x-4 justify-center items-center mb-6">
+        <div className="flex w-10 h-10 items-center justify-center rounded-full bg-[#F5F5F6]">
+          <span className="leading-none">{downVotes}</span>
+        </div>
+        <button
+          onClick={onVoteDown}
+          className="flex w-16 h-16 items-center justify-center rounded-full bg-[#FECDCD]"
+        >
+          <img src={thumbsDown} className="h-5 w-5" alt="logo" />
+        </button>
+        <button
+          onClick={onVoteUp}
+          className="flex w-16 h-16 items-center justify-center rounded-full bg-[#C7FACC]"
+        >
+          <img src={thumbsUp} className="h-5 w-5" alt="logo" />
+        </button>
+        <div className="flex w-10 h-10 items-center justify-center rounded-full bg-[#F5F5F6]">
+          <span>{upVotes}</span>
+        </div>
+      </div>
+      <button
+        onClick={onVoteReset}
+        className="bg-[#F5F5F6] rounded-full py-3 px-6 leading-none"
+      >
         Reset Votes
       </button>
     </div>
