@@ -103,8 +103,6 @@ const names = [
 ];
 
 const randomColor = (() => {
-    "use strict";
-  
     const randomInt = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     };
@@ -115,7 +113,7 @@ const randomColor = (() => {
         var l = randomInt(40, 60);
         return `hsl(${h},${s}%,${l}%)`;
     };
-    })();
+})();
 
 export function AvatarStack() {
     const [presenceData] = usePresence("playground", {
